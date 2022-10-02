@@ -1,0 +1,83 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=generator content="Hugo 0.91.2">
+<title>Blog_setup - A Hugo website</title>
+<meta property="og:title" content="Blog_setup - A Hugo website">
+<link href=/favicon.ico rel=icon type=image/x-icon>
+<link href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css rel=stylesheet type=text/css>
+<link rel=stylesheet href=/css/fonts.css media=all>
+<link rel=stylesheet href=/css/main.css media=all>
+</head>
+<body>
+<div class=wrapper>
+<header class=header>
+<nav class=nav>
+<a href=/ class=nav-logo>
+<img src=/images/hugo-logo.png width=50 height=50 alt=Logo>
+</a>
+<ul class=nav-links>
+<li><a href=/pl/>demo</a></li>
+</ul>
+</nav>
+</header>
+<main class=content role=main>
+<article class=article>
+<h1 class=article-title>Blog_setup</h1>
+<span class=article-date>2022-10-02</span>
+<div class=article-content>
+<h1 id=hugo-quick-start>hugo quick start</h1>
+<p>跟着 <a href=https://gohugo.io/getting-started/quick-start/>quick start doc</a> 初始化站点, theme 选择 <a href=https://github.com/draveness/hugo-lithium>hugo-lithium</a></p>
+<h1 id=theme-config>theme config</h1>
+<p>替换 config.toml 为主题example site 的config.
+修改如下:</p>
+<ul>
+<li>修改posts permlink 为 baseURL/post_name.</li>
+<li>修改single page template, 增加 tag 显示区域.</li>
+<li>避免 <code>_index.md</code> 使用list page 模板渲染. 因为要自定义索引页.</li>
+<li>配置 archetype.</li>
+<li>配置菜单</li>
+</ul>
+<h1 id=content-organization>content organization</h1>
+<p>如果需要发表系类文章, 系列名为demo, 陆续发表两篇文章 Go, Java.
+过程如下:</p>
+<ul>
+<li><code>hugo new posts/demo/_index.md</code>, 作为系列文章首页包含概述和文章索引. 发布后的URL为demo</li>
+<li>posts 间的引用语法<a href=https://gohugobrasil.netlify.app/content-management/cross-references/>link</a>.</li>
+<li><code>hugo new posts/demo/Java.md</code>. 发布后的URL为 /java</li>
+<li><code>hugo new posts/demo/Go.md</code>. 发布后的URL为 /Go</li>
+<li>添加菜单
+<pre tabindex=0><code> [[menu.main]]
+ name = &quot;demo&quot;
+ url = &quot;/pl/&quot;
+</code></pre></li>
+</ul>
+<h1 id=deploy>deploy</h1>
+<p>use github action and github pages.</p>
+<h1 id=references>references</h1>
+<ul>
+<li>hugo content organization and how hugo parse posts url. <a href=https://gohugobrasil.netlify.app/content-management/organization/>link1</a></li>
+<li>single page(article) vs list page(_index.md, tag.md, categories.md) and their templates. <a href=https://gohugo.io/templates/introduction/>link2</a></li>
+<li>hugo variables and scope bind. <a href=https://gohugo.io/variables/>link3</a></li>
+</ul>
+</div>
+</article>
+</main>
+<footer class=footer>
+<ul class=footer-links>
+<li>
+<a href=/index.xml type=application/rss+xml target=_blank>RSS feed</a>
+</li>
+<li>
+<a href=https://gohugo.io/ class=footer-links-kudos>Made with <img src=/images/hugo-logo.png alt="Img link to Hugo website" width=22 height=22></a>
+</li>
+</ul>
+</footer>
+</div>
+<script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script>
+<script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js></script>
+<script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js></script>
+<script>hljs.configure({languages:[]}),hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
