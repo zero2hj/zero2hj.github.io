@@ -54,7 +54,11 @@
 </code></pre></li>
 </ul>
 <h1 id=deploy>deploy</h1>
-<p>use github action and github pages.</p>
+<p>use github action and github pages.
+action refer this <a href=https://github.com/peaceiris/actions-hugo>repo</a>.
+rename your baseURL in config.toml with the value <code>https://&lt;USERNAME>.github.io</code>
+Go to repo settings->pages->source branch drop down, select branch <code>gh-pages</code> as page&rsquo;s source.
+After a while, action automation finished successfully, visit your page&rsquo;s address.</p>
 <h1 id=references>references</h1>
 <ul>
 <li>hugo content organization and how hugo parse posts url. <a href=https://gohugobrasil.netlify.app/content-management/organization/>link1</a></li>
