@@ -1,4 +1,54 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on A Hugo website</title><link>https://yanhj93.github.io/posts/</link><description>Recent content in Posts on A Hugo website</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 02 Oct 2022 21:36:07 +0800</lastBuildDate><atom:link href="https://yanhj93.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Blog_setup</title><link>https://yanhj93.github.io/blog_setup/</link><pubDate>Sun, 02 Oct 2022 21:36:07 +0800</pubDate><guid>https://yanhj93.github.io/blog_setup/</guid><description>hugo quick start 跟着 quick start doc 初始化站点, theme 选择 hugo-lithium
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on A Hugo website</title><link>https://yanhj93.github.io/posts/</link><description>Recent content in Posts on A Hugo website</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 20 Feb 2025 00:01:43 +0800</lastBuildDate><atom:link href="https://yanhj93.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Java_gc</title><link>https://yanhj93.github.io/java_gc/</link><pubDate>Thu, 20 Feb 2025 00:01:43 +0800</pubDate><guid>https://yanhj93.github.io/java_gc/</guid><description>measure throughput indicate percentage of time used in application against gc. the more frequent gc work, the more resource it take away from application which affect throughput even if with concurrent. If reduce the frequency of gc and don&amp;rsquo;t gc before garbage has accumulate to large amount, it will decrease total cpu and footprint cost on gc but may increase the paused time in this big gc work round.
+response time, as what said above, gc more frequent with short pause time, with small effect to user interactive application.</description></item><item><title>Java 方法执行</title><link>https://yanhj93.github.io/java-%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C/</link><pubDate>Sun, 09 Jun 2024 20:44:02 +0800</pubDate><guid>https://yanhj93.github.io/java-%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C/</guid><description>从源码到cpu执行的过程梳理 common method execution scenarios such as main method, constructor, static method, polymorphism, reflection, lambda expression beyond java how source code execute to cpu JVM load class file and interpret/execute the bytecode.
+class file contains byte sequence, which is platform neutral.
+Java source code was compiled to platform neutral byte code, wellknowed as class file. java class file is with strict format, define every thing of java class.</description></item><item><title>Blog_setup</title><link>https://yanhj93.github.io/blog_setup/</link><pubDate>Sun, 02 Oct 2022 21:36:07 +0800</pubDate><guid>https://yanhj93.github.io/blog_setup/</guid><description>hugo quick start 跟着 quick start doc 初始化站点, theme 选择 hugo-lithium
 theme config 替换 config.toml 为主题example site 的config. 修改如下:
 修改posts permlink 为 baseURL/post_name. 修改single page template, 增加 tag 显示区域. 避免 _index.md 使用list page 模板渲染. 因为要自定义索引页. 配置 archetype. 配置菜单 content organization 如果需要发表系类文章, 系列名为demo, 陆续发表两篇文章 Go, Java. 过程如下:
-hugo new posts/demo/_index.md, 作为系列文章首页包含概述和文章索引. 发布后的URL为demo posts 间的引用语法link. hugo new posts/demo/Java.md. 发布后的URL为 /java hugo new posts/demo/Go.md. 发布后的URL为 /Go 添加菜单 [[menu.main]] name = &amp;quot;demo&amp;quot; url = &amp;quot;/pl/&amp;quot; deploy use github action and github pages.</description></item></channel></rss>
+hugo new posts/demo/_index.md, 作为系列文章首页包含概述和文章索引. 发布后的URL为demo posts 间的引用语法link. hugo new posts/demo/Java.md. 发布后的URL为 /java hugo new posts/demo/Go.md. 发布后的URL为 /Go 添加菜单 [[menu.main]] name = &amp;quot;demo&amp;quot; url = &amp;quot;/pl/&amp;quot; deploy use github action and github pages.</description></item><item><title>卡片笔记写作法</title><link>https://yanhj93.github.io/%E5%8D%A1%E7%89%87%E7%AC%94%E8%AE%B0%E5%86%99%E4%BD%9C%E6%B3%95/</link><pubDate>Sun, 02 Oct 2022 21:36:07 +0800</pubDate><guid>https://yanhj93.github.io/%E5%8D%A1%E7%89%87%E7%AC%94%E8%AE%B0%E5%86%99%E4%BD%9C%E6%B3%95/</guid><description>书评
+写作是个人影响力的重要表现方式，同时也是个人学习正向反馈的关键环节。写作是目的也是手段。
+卡片笔记是记笔记的方法论，写作时笔记如神经网络一样自然连接。
+卡片笔记从心理、意志力、练习等方面阐述如何阅读、写作最终掌握各个领域的专业技能。
+注意力与写作
+分散注意力的事物越来越多。
+练习注意力的机会减少，集中注意力的能力没有得到锻炼。
+同时关注多件事，不能借助注意力的红利，且容易被曝光效应欺骗，获得假性知识。
+不同任务需要不同程度的关注度。
+卡片写作法提供清晰、稳定的工作结构，在有限的时间内依次完成任务。
+卡片写作法以卡片形式形式拆分主题
+写作本身能训练长时间集中注意力的能力。
+写作与笔记能帮助我们长久的专注于一个领域、一个项目等(写作内容)。
+计划与写作
+规则 原则 通用的解决方案 vs 实践积累的经验
+没有完美通用的指导下一步是什么 依赖规则会陷入低效的状态 且缺乏获取事实的反馈 产生洞见的独立思考
+全身心的投入、快速推进以及通过恰当的例子对具体案例进行深入了解，是成为真正高手的先决条件
+对一个领域的专业 体现依赖实践经验对真实情况的直觉反应
+卡片笔记没有提供记笔记的技巧和流程，它提供的是多个层面的练习的机会，它强调自我阐述、建立联系、即时反馈。
+记忆力与写作
+蔡格尼克效应，短期记忆力会占据大脑
+释放短期记忆(GTD)，未解决的事会占据短期记忆，在需求集中注意力时造成干扰
+建立事物间的联系，从而拥有长期记忆
+记录卡片笔记是将思考的结果记录下来，从而为了切换到其他事务或更为了随时能切换回记忆点；
+在卡片之间建立联系，成为提取记忆的线索;
+意志力与写作
+意志力是大脑中一种有限资源 消耗的快 恢复的慢
+称为自我损耗 各种个样的事情都会自我损耗 从而很容易降低学习工作的能力 意愿
+避免自我损耗 即避免消耗意志力 如自我暗示 欺骗
+工作生活中的决策很多 避免不必要的决策 将注意力放在更重要的事上
+及时完成工作 放心休息 再次开始 有助于恢复意志力 这是个良性循环
+卡片笔记有清晰的工作流程，避免记笔记本身这个行为的消耗；
+卡片笔记通过链接建立笔记的联系，如同人的大脑，系统在自然的记录以及建立联系的过程中行成；
+卡片笔记如同复利投资，ROI高，积累的越多，越能通过卡片和链接形成洞察。
+阅读与写作
+无记录不阅读
+读书没有记笔记相当于没有读过这本书
+单纯的摘抄、画线、评论不能够在长远的时间维度上发挥效用。
+笔记应当用自己的语言转述原文意思
+笔记不光记录论点，更可以是文本的框架，理论背景，方法论等
+笔记应当带有目的，即为你的知识系统服务
+卡片笔记是最终的永久笔记，恰是阅读的目的；
+卡片是阅读进行的生态系统，它为阅读提供养分，使阅读不无的放矢，又被阅读所充实，行成正向循环;
+文献笔记是贴近原文的理解思考，永久笔记是可以出版的、完全属于自身知识系统的写作产物
+避免确认偏差
+个人选择性地回忆、搜集有利细节，忽略不利或矛盾的资讯，来支持自己已有的想法或假设的趋势
+不应带着已有论点阅读和笔记，而是收集后总结归纳，再与已有论点建立联系。
+培养驾驭文本的能力</description></item></channel></rss>

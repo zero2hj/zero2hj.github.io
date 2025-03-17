@@ -1,0 +1,152 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=generator content="Hugo 0.91.2">
+<title>Java_gc - A Hugo website</title>
+<meta property="og:title" content="Java_gc - A Hugo website">
+<link href=https://yanhj93.github.io/favicon.ico rel=icon type=image/x-icon>
+<link rel=stylesheet href=/css/fonts.css media=all>
+<link rel=stylesheet href=/css/main.css media=all>
+</head>
+<body>
+<div class=wrapper>
+<header class=header>
+<nav class=nav>
+<a href=/ class=nav-logo>
+<img src=/images/hugo-logo.png width=50 height=50 alt=Logo>
+</a>
+<ul class=nav-links>
+<li><a href=/categories/>Categories</a></li>
+<li><a href=/pl/>demo</a></li>
+<li><a href=/tags/>Tags</a></li>
+</ul>
+</nav>
+</header>
+<main class=content role=main>
+<article class=article>
+<h1 class=article-title>Java_gc</h1>
+<div class=article-content>
+<h1 id=measure>measure</h1>
+<p>throughput indicate percentage of time used in application against gc. the more frequent gc work, the more resource it take away from application which affect throughput even if with concurrent. If reduce the frequency of gc and don&rsquo;t gc before garbage has accumulate to large amount, it will decrease total cpu and footprint cost on gc but may increase the paused time in this big gc work round.</p>
+<p>response time, as what said above, gc more frequent with short pause time, with small effect to user interactive application.</p>
+<blockquote>
+</blockquote>
+<h1 id=design>design</h1>
+<p>most of time, we don&rsquo;t want the ultimate, long time paused gc and was supposed to increase gc oppotunity but not influence throughput that much.</p>
+<ol>
+<li>Generation hypothesis. most objects live a short time, objects age get to more long, the less oppotunity they will be collected. it increase times to gc young objects but decrease times to gc old objects to achieve the balance.</li>
+<li>concurrent with application at some phase can reduce pause time to gain low latency.</li>
+</ol>
+<h1 id=key>key</h1>
+<h2 id=how-to-check-live-objects>how to check live objects</h2>
+<h3 id=reachability-analysis>Reachability analysis.</h3>
+<ol>
+<li>list gc root</li>
+<li>mark phase(track the reference tree from gc root)
+consisder reference as alive only if there is the path from gc root to the object. gc roots are stack variable, class static variable, string table, JNI, class object.<br>
+finding gc roots phase must stop the world,
+and optimizition direction was about to reduce the range to find gc root, e.g. minor gc only need to find reference in eden space(also inter-generation reference)</li>
+</ol>
+<p>mark phase should also start from the consistent snapshot, otherwise the reachability of the reference would change, from live to dead, even worse garbage become referenced by other live ref.</p>
+<p>as heap grows, serialize mark phase seek a way to become concurrent, arise the requisite to solve reference relation change through phase.
+consisder these scenes: 1. object was scanned but origin reference relation was break. It would become a float garbage can&rsquo;t be collected until next gc round 2. object was not scanned yet and change to be referenced by an already scanned ref, so it won&rsquo;t be scanned in this initial mark round.</p>
+<p>java collection use tri-color marking algorithm in marking phase and to solve above problem which called &ldquo;lost-object-problem&rdquo; introduce two other solutions: incremental update and snatshot at the begining(SATB).each solution break one of two condition that must meet if the lost object happens: ·赋值器插入了一条或多条从黑色对象到白色对象的新引用； ·赋值器删除了全部从灰色对象到该白色对象的直接或间接引用。</p>
+<h3 id=satb>SATB</h3>
+<ul>
+<li>write barrier to detect b.c = null, speculate c is alive,</li>
+<li>preserve the b->c relation at marking start</li>
+<li>process c in remarking phase?</li>
+<li>can not handle floating garbage(new garbage)</li>
+</ul>
+<h3 id=multiple-marking>multiple marking</h3>
+<p>take CMS as an example: initial marking phase list gc roots and gc directly reached object. concurrent marking means gc threads work concurrent with application threads. remarking phase handle incremental update during concurent marking phase.</p>
+<h2 id=how-to-evacuate-space>how to evacuate space</h2>
+<p>there are 3 methods: sweep, copy, compact.<br>
+sweep was not efficient when more objs were short-live and also will cause memory fragement.
+copy live objects to one place, and sweep last place. not fit into old generation because of high percentage of live objects.
+compact was designed for old gen to solve 分配担保.</p>
+<p>consisder 3 method, copy & move was not efficient at gc time, but sweep need to do more work(空闲分配链表) when allocate memory to handle memory fragement. And because memory alloc and access are more frequent we can conclude sweep method has low throughput then copy method.</p>
+<h2 id=phases--stw>phases & STW</h2>
+<p>different algorithm and gc implementations pause at stw time in different phase. there are also pause free alogrithm that do not require pause.</p>
+<p>commons phases</p>
+<p>initial mark
+remark
+evacuate
+re-allocate</p>
+<h1 id=implementationdifferent-collectors>implementation(different collectors)</h1>
+<p>earlier to latest. for different generation. for throughput or low lattency or balance.</p>
+<h2 id=serialize>serialize</h2>
+<ul>
+<li>young (copy), old (sweep)</li>
+<li></li>
+<li>young (copy)</li>
+<li>parallel</li>
+<li>used with cms for old gc</li>
+</ul>
+<h2 id=parallel-scavenge>parallel scavenge</h2>
+<ul>
+<li>young (copy)</li>
+<li>compare parnew friendly to cpu resource sensitive application</li>
+<li>not compatible with cms. instead parallel scavenge + parallel old</li>
+</ul>
+<p>detail:
+<code>-XX: GCTimeRatio</code>, lower ratio higher throughput
+<code>-XX: MaxGCPauseTime</code>, higher throughput means more space to collect and higher pause time.
+<code>-XX: UseAdaptiveSizePolicy</code>, GC Ergonomics auto-tune generation sizes by specify preferer</p>
+<p>see more detail <a href=https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/parallel.html>here</a></p>
+<h2 id=cms>cms</h2>
+<ul>
+<li>old (sweep)</li>
+<li>phases: initial mark, concurrent mark, re-mark, concurrent sweep</li>
+<li>cons: cpu sensitive, contention resource with application. cannot collect floating garbage may encounter concurrent mode failure(no more free space to allocate for application thread) and will go back to full gc. sweep cause memory fragmentation.</li>
+</ul>
+<h2 id=g1>g1</h2>
+<ul>
+<li>region based. collection set instead of whole generation, so called mixed gc.</li>
+<li>region size 1-32MB</li>
+<li>inter-region reference, remember set and card table</li>
+</ul>
+<h3 id=remember-set--card-table>remember set & card table</h3>
+<p>for the purpose to remember which old region obj has pointers to current region, jvm add write barrier to pointer assigment statement.
+for memory efficiency, instead of recording each object, card table record only high level of object address, which is bucket the obj reside in.
+each bit in card table indicate the bucket at the index is dirty.</p>
+<p>remember set is k-v structure, k to find region, v to find card</p>
+<h3 id=phases>phases</h3>
+<h3 id=tuning>tuning</h3>
+<h2 id=shenandoah>shenandoah</h2>
+<h2 id=zgc>zgc</h2>
+<p>generational logic heap memory was implemented in all kinds of collectors and different generation may use different algorithm as discussed before, old generation mark compact, young gen mark copy.</p>
+<p>collectors are for specific generation and require other collector to work together.</p>
+<p>since cms there</p>
+<p>g1 remember set consume much memory</p>
+<p>g1 2nd phase need build rset after checkout candidate set to reclaim , then move to space reclaimation phase collect and reclaiming space in old region from collection set candidate</p>
+<p>rset maintain</p>
+<p>card table each bit says some portion is dirty-has pointers to other generation.</p>
+<p>Per region has remember set track these card tables related to its region. When scan the region it will also need to scan the card table region too.</p>
+<p>Card table structure maintains?</p>
+<p>As remember set will consume much memory if it has many track information so young gen was divided into small regions</p>
+<h1 id=ref>ref</h1>
+<ol>
+<li>深入理解Java虚拟机</li>
+<li>G1 Garbage Collector Details and Tuning by Simone Bordet(<a href="https://www.youtube.com/watch?v=Gee7QfoY8ys">https://www.youtube.com/watch?v=Gee7QfoY8ys</a>)</li>
+</ol>
+<p>other gc related materials:<br>
+Shenandoah GC Part I ： The Garbage Collector That Could
+<a href=https://gchandbook.org/contents.html>https://gchandbook.org/contents.html</a></p>
+</div>
+</article>
+</main>
+<footer class=footer>
+<ul class=footer-links>
+<li>
+<a href=/index.xml type=application/rss+xml target=_blank>RSS feed</a>
+</li>
+<li>
+<a href=https://gohugo.io/ class=footer-links-kudos>Made with <img src=/images/hugo-logo.png alt="Img link to Hugo website" width=22 height=22></a>
+</li>
+</ul>
+</footer>
+</div>
+</body>
+</html>
