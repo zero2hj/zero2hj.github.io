@@ -1,3 +1,7 @@
 [submodule "themes/hugo-lithium"]
 	path = themes/hugo-lithium
-	url = git@github.com:draveness/hugo-lithium.git
+	url = https://github.com/draveness/hugo-lithium.git
+	branch = master
+[submodule "themes/simple"]
+	path = themes/simple
+	url = https://github.com/barklan/hugo-dead-simple.git

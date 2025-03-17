@@ -2,6 +2,8 @@
 title: "Blog_setup"
 date: 2022-10-02T21:36:07+08:00
 draft: false
+categories:
+  - "reference"
 ---
 
 # hugo quick start
