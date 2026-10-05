@@ -1,0 +1,7 @@
+Channel logos sourced from fanmingming/live:
+https://github.com/fanmingming/live
+Source revision: 253f919839a81618103618c4ce2c56a4fc18ce37
+Original PNG assets: https://github.com/fanmingming/live/tree/253f919839a81618103618c4ce2c56a4fc18ce37/tv
+The PNG files are redistributed without modification.
+Repository license: GNU GPL v3. See LICENSE.txt.
+Channel names and logos identify their respective broadcasters.
